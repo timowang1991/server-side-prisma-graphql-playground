@@ -1,3 +1,5 @@
+import "regenerator-runtime/runtime";
+
 import express from 'express';
 import expressPlayground from 'graphql-playground-middleware-express';
 import bodyParser from 'body-parser';
