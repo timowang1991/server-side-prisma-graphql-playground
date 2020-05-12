@@ -1,4 +1,4 @@
-import "regenerator-runtime/runtime";
+import 'regenerator-runtime/runtime';
 
 import express from 'express';
 import expressPlayground from 'graphql-playground-middleware-express';
