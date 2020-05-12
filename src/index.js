@@ -2,40 +2,55 @@ import express from 'express';
 import expressPlayground from 'graphql-playground-middleware-express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
+import isEmpty from 'lodash.isempty';
 
 const {
-    PORT,
-    TARGET_SCHEMA_URL
+    PORT = 3000,
+    TARGET_QUERY_URL = 'http://suppressbress.corp.gq1.yahoo.com:4080/api/v1/gql/query',
+    TARGET_INTROSPECT_URL = 'http://suppressbress.corp.gq1.yahoo.com:4080/api/v1/gql/introspect',
 } = process.env;
+
+const FALLBACK_QUERY_URL = 'http://localhost:4080/api/v1/gql/query';
+const FALLBACK_INTROSPECT_URL = 'http://localhost:4080/api/v1/gql/introspect';
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/playground', async (req, res, next) => {
-    const { data: schema } = await axios.get('http://suppressbress.corp.gq1.yahoo.com:4080/api/v1/gql/schema' || TARGET_SCHEMA_URL);
-
-    expressPlayground({
-        endpoint: '/graphql',
-        schema,
-        settings: {
-            'schema.polling.enable': false,
-        },
-    })(req, res, next);
-});
+app.use('/playground', expressPlayground({
+    endpoint: '/graphql',
+    settings: {
+        'schema.polling.endpointFilter': '/introspect',
+    },
+}));
 
 app.use('/graphql', async (req, res, next) => {
     const { query, variables } = req.body;
+
+    const params = isEmpty(variables) ? {
+        query,
+    } : {
+        query,
+        variables
+    };
+
     try {
-        const {
-            data
-        } = await axios.get(`http://suppressbress.corp.gq1.yahoo.com:4080/api/v1/gql/query?query=${encodeURIComponent(query)}`)
+        const { data } = await axios.get(TARGET_QUERY_URL || FALLBACK_QUERY_URL, { params });
         res.send(data);
     } catch (error) {
         res.send(error);
     }
 });
 
-app.listen(PORT || 3000, () => {
-    console.log('server listening on', PORT || 3000);
+app.use('/introspect', async (req, res) => {
+    try {
+        const { data } = await axios.get(TARGET_INTROSPECT_URL || FALLBACK_INTROSPECT_URL);
+        res.send(data);
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+app.listen(PORT, () => {
+    console.log('server listening on', PORT);
 });
