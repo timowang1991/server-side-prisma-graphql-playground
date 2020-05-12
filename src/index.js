@@ -6,8 +6,8 @@ import isEmpty from 'lodash.isempty';
 
 const {
     PORT = 3000,
-    TARGET_QUERY_URL = 'http://suppressbress.corp.gq1.yahoo.com:4080/api/v1/gql/query',
-    TARGET_INTROSPECT_URL = 'http://suppressbress.corp.gq1.yahoo.com:4080/api/v1/gql/introspect',
+    TARGET_QUERY_URL,
+    TARGET_INTROSPECT_URL,
 } = process.env;
 
 const FALLBACK_QUERY_URL = 'http://localhost:4080/api/v1/gql/query';
