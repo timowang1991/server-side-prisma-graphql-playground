@@ -7,7 +7,8 @@
         "dev": "nodemon --exec babel-node src/index.js",
         "build": "babel src/index.js -d dist",
         "start": "npm run build && node dist/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "lint": "eslint . --ext .js",
+        "test": "npm run lint"
     },
     "author": "",
     "license": "ISC",
@@ -23,6 +24,9 @@
         "@babel/core": "^7.9.6",
         "@babel/node": "^7.8.7",
         "@babel/preset-env": "^7.9.6",
+        "eslint": "^7.0.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-plugin-import": "^2.20.2",
         "nodemon": "^2.0.3"
     }
 }

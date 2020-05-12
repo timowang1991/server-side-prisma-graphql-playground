@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime';
+import 'regenerator-runtime/runtime'; // eslint-disable-line
 
 import express from 'express';
 import expressPlayground from 'graphql-playground-middleware-express';
@@ -26,14 +26,14 @@ app.use('/playground', expressPlayground({
     },
 }));
 
-app.use('/graphql', async (req, res, next) => {
+app.use('/graphql', async (req, res) => {
     const { query, variables } = req.body;
 
     const params = isEmpty(variables) ? {
         query,
     } : {
         query,
-        variables
+        variables,
     };
 
     try {
@@ -51,7 +51,7 @@ app.use('/introspect', async (req, res) => {
     } catch (error) {
         res.send(error);
     }
-})
+});
 
 app.listen(PORT, () => {
     console.log('server listening on', PORT);
