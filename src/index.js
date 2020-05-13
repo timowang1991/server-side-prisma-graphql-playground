@@ -7,7 +7,7 @@ import axios from 'axios';
 import isEmpty from 'lodash.isempty';
 
 const {
-    PORT = 3000,
+    PORT = 5466,
     TARGET_QUERY_URL,
     TARGET_INTROSPECT_URL,
 } = process.env;

@@ -1,0 +1,17 @@
+version: '3'
+services:
+    prisma_gql_playground:
+        container_name: prisma_gql_playground_dev
+        image: node:12.14.0-alpine
+        working_dir: "/usr/src/app"
+        ports: 
+            - 5466:5466
+        volumes: 
+            - .:/usr/src/app
+        command: 
+            - /bin/sh
+            - -c
+            - |
+                npm i
+                npm run test
+                npm run dev

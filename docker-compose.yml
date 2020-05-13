@@ -1,0 +1,9 @@
+version: '3'
+services:
+    prisma_gql_playground:
+        container_name: prisma_gql_playground
+        image: registry.gitlab.com/infoathship/atcc-be:latest
+        build: .
+        restart: always
+        ports: 
+            - 5466:5466
