@@ -10,6 +10,7 @@ const {
     PORT = 5466,
     TARGET_QUERY_URL,
     TARGET_INTROSPECT_URL,
+    WORKSPACE = 'default',
 } = process.env;
 
 const FALLBACK_QUERY_URL = 'http://localhost:4080/api/v1/gql/query';
@@ -24,6 +25,7 @@ app.use('/playground', expressPlayground({
     settings: {
         'schema.polling.endpointFilter': '/introspect',
     },
+    workspaceName: WORKSPACE,
 }));
 
 app.use('/graphql', async (req, res) => {
