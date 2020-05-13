@@ -11,6 +11,9 @@ For developing (with nodemon)
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
+then open the following url with your browser:
+http://localhost:5466/playground
+
 # Customize graphql server endpoints
 Usually, there are 2 endpoints to change, one is the `graphql` endpoint and the other is the `introspect` endpoint.
 
