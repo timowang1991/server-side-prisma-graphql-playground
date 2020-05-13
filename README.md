@@ -14,7 +14,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 # Customize graphql server endpoints
 Usually, there are 2 endpoints to change, one is the `graphql` endpoint and the other is the `introspect` endpoint.
 
-You can edit the `environment` section in `docker-compose.yml` to adjust the endpoints of your graphql server.
+You can edit the `environment` section in `docker-compose.yml` to adjust the endpoints (`TARGET_QUERY_URL` and `TARGET_INTROSPECT_URL`) of your graphql server.
 ```
 environment:
     - PORT=5466
