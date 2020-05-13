@@ -2,8 +2,12 @@ version: '3'
 services:
     prisma_gql_playground:
         container_name: prisma_gql_playground
-        image: registry.gitlab.com/infoathship/atcc-be:latest
+        image: server_side_prisma_gql_playground
         build: .
         restart: always
         ports: 
             - 5466:5466
+        environment:
+            - PORT=5466
+            # - TARGET_QUERY_URL=http://${HOSTNAME}:4080/api/v1/gql/query
+            # - TARGET_INTROSPECT_URL=http://${HOSTNAME}:4080/api/v1/gql/introspect
