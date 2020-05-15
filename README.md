@@ -1,5 +1,6 @@
 # What is this?
 This is a standalone prisma graphql playground which connects to a remote graphql server.
+![截圖 2020-05-13 下午4 47 51](https://user-images.githubusercontent.com/5511042/82015884-628d6480-96b2-11ea-8090-1ce8bb4d76cd.png)
 
 # Quick start
 ```
