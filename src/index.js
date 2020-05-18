@@ -8,13 +8,10 @@ import isEmpty from 'lodash.isempty';
 
 const {
     PORT = 5466,
-    TARGET_QUERY_URL,
-    TARGET_INTROSPECT_URL,
+    TARGET_QUERY_URL = 'http://localhost:4080/api/v1/gql/query',
+    TARGET_INTROSPECT_URL = 'http://localhost:4080/api/v1/gql/introspect',
     WORKSPACE = 'default',
 } = process.env;
-
-const FALLBACK_QUERY_URL = 'http://localhost:4080/api/v1/gql/query';
-const FALLBACK_INTROSPECT_URL = 'http://localhost:4080/api/v1/gql/introspect';
 
 const app = express();
 
@@ -39,7 +36,7 @@ app.use('/graphql', async (req, res) => {
     };
 
     try {
-        const { data } = await axios.get(TARGET_QUERY_URL || FALLBACK_QUERY_URL, { params });
+        const { data } = await axios.get(TARGET_QUERY_URL, { params });
         res.send(data);
     } catch (error) {
         res.send(error);
@@ -48,11 +45,15 @@ app.use('/graphql', async (req, res) => {
 
 app.use('/introspect', async (req, res) => {
     try {
-        const { data } = await axios.get(TARGET_INTROSPECT_URL || FALLBACK_INTROSPECT_URL);
+        const { data } = await axios.get(TARGET_INTROSPECT_URL);
         res.send(data);
     } catch (error) {
         res.send(error);
     }
+});
+
+app.get('/', (req, res) => {
+    res.redirect('/playground');
 });
 
 app.listen(PORT, () => {
