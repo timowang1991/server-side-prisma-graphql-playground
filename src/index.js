@@ -19,14 +19,11 @@ app.use(bodyParser.json());
 
 app.use('/playground', expressPlayground({
     endpoint: '/graphql',
-    settings: {
-        'schema.polling.endpointFilter': '/introspect',
-    },
     workspaceName: WORKSPACE,
 }));
 
 app.use('/graphql', async (req, res) => {
-    const { query, variables } = req.body;
+    const { operationName, query, variables } = req.body;
 
     const params = isEmpty(variables) ? {
         query,
@@ -34,18 +31,18 @@ app.use('/graphql', async (req, res) => {
         query,
         variables,
     };
+    
+    if (operationName === 'IntrospectionQuery') {
+        try {
+            const { data } = await axios.get(TARGET_INTROSPECT_URL || TARGET_QUERY_URL, { params });
+            res.send(data);
+        } catch (error) {
+            res.send(error);
+        }
+    }
 
     try {
         const { data } = await axios.get(TARGET_QUERY_URL, { params });
-        res.send(data);
-    } catch (error) {
-        res.send(error);
-    }
-});
-
-app.use('/introspect', async (req, res) => {
-    try {
-        const { data } = await axios.get(TARGET_INTROSPECT_URL);
         res.send(data);
     } catch (error) {
         res.send(error);
