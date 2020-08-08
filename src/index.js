@@ -35,9 +35,9 @@ app.use('/graphql', async (req, res) => {
     if (operationName === 'IntrospectionQuery') {
         try {
             const { data } = await axios.get(TARGET_INTROSPECT_URL || TARGET_QUERY_URL, { params });
-            res.send(data);
+            return res.send(data);
         } catch (error) {
-            res.send(error);
+            return res.send(error);
         }
     }
 
